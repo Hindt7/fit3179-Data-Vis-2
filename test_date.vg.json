@@ -14,11 +14,6 @@
         },
         {
             "filter": "datum.Fate == 'Disposal'"
-        },
-        {
-            "pivot": "Fate",
-            "value": "Tonnes",
-            "groupby": ["Year"]
         }
     ],
     "mark": { "type": "bar", "tooltip": { "content": "data" } },
