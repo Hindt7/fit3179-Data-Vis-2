@@ -1,0 +1,40 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": { "text": "Resource recovery rate of Australia 2006-2021" },
+    "data": {
+        "url": "data/aus_national_waste_by_stream_2022.csv"
+    },
+    "transform": [{
+            "joinaggregate": [{
+                "op": "sum",
+                "field": "Tonnes",
+                "as": "StreamYearTotalWaste"
+            }],
+            "groupby": ["Year", "Stream"]
+        },
+        {
+            "filter": { "field": "Fate", "oneOf": ["Recycling", "Waste reuse", "Energy recovery"] }
+        },
+        {
+            "joinaggregate": [{
+                "op": "sum",
+                "field": "Tonnes",
+                "as": "StreamYearResourceRecovery"
+            }],
+            "groupby": ["Year", "Stream"]
+        },
+        {
+            "calculate": "ceil(datum.StreamYearResourceRecovery / datum.StreamYearTotalWaste)",
+            "as": "RecoveryRate"
+        },
+        {
+            "aggregate": [{ "op": "min", "field": "RecoveryRate", "as": "ResourceRecoveryRate" }],
+            "groupby": ["Year", "Stream"]
+        }
+    ],
+    "mark": { "type": "line", "tooltip": { "content": "data" } },
+    "encoding": {
+        "x": { "field": "Year", "type": "ordinal" },
+        "y": { "field": "RecoveryRate", "type": "quantitative", "title": "Resource recovery rate" }
+    }
+}

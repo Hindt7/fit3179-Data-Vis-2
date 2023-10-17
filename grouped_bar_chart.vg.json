@@ -1,0 +1,49 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": { "text": "Total Waste of Australia from 2006-2021" },
+    "data": {
+        "url": "https://raw.githubusercontent.com/Hindt7/fit3179-Data-Vis-2/main/data/aus_national_waste_by_category_2022.csv"
+    },
+    "transform": [{
+            "joinaggregate": [{
+                "op": "sum",
+                "field": "Tonnes",
+                "as": "TotalWaste"
+            }],
+            "groupby": ["Year"]
+        },
+        {
+            "filter": "datum.Fate == 'Disposal'"
+        },
+        {
+            "joinaggregate": [{
+                "op": "sum",
+                "field": "Tonnes",
+                "as": "DisposalWaste"
+            }],
+            "groupby": ["Year"]
+        },
+        {
+            "aggregate": [{ "op": "min", "field": "DisposalWaste", "as": "Yearly disposal waste" }, { "op": "min", "field": "TotalWaste", "as": "Yearly total waste" }],
+            "groupby": ["Year"]
+        }
+    ],
+    "repeat": { "layer": ["Yearly disposal waste", "Yearly total waste"] },
+    "spec": {
+        "mark": "bar",
+        "encoding": {
+            "x": {
+                "field": "Year",
+                "type": "ordinal",
+                "title": "Financial year"
+            },
+            "y": {
+                "field": { "repeat": "layer" },
+                "type": "quantitative",
+                "title": "Tonnes"
+            },
+            "color": { "datum": { "repeat": "layer" }, "title": "Gross" },
+            "xOffset": { "datum": { "repeat": "layer" } }
+        }
+    }
+}
