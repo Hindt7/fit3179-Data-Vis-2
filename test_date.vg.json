@@ -2,7 +2,7 @@
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "title": { "text": "Total Waste of Australia from 2006-2021" },
     "data": {
-        "url": "data/aus_national_waste_by_category_2022.csv"
+        "url": "https://raw.githubusercontent.com/Hindt7/fit3179-Data-Vis-2/main/data/aus_national_waste_by_category_2022.csv?token=GHSAT0AAAAAACI7WIISMGAYPGFXJUBRP6MCZJOAYKQ"
     },
     "transform": [{
             "joinaggregate": [{
